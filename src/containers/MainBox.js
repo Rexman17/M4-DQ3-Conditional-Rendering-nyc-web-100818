@@ -3,22 +3,43 @@ import MenuBar from '../components/MenuBar.js'
 import { Profile, Photos, Cocktails, Pokemon} from '../components/Pages.js'
 
 class MainBox extends React.Component {
+  // This component has state bc it's the parent and will pass to child
+  // Needs to know which menu bar item was selected
+  state = {
+    selectedIcon: ''
+  }
 
+  // fn to pass down as a prop to menu bar
+  selectPage = (id) => {
+    // console.log(id);
+    this.setState({
+      selectedIcon: id
+    }, () => console.log("STATE IS NOW", this.state.selectedIcon))
+  }
+  // want to see this.state change to make sure state changed when we click something different
 
   render() {
+    // Conditional rendering
+    // need to store the state into a variable
+    const targetPage = this.state.selectedIcon
+    let pageToRender; // going to do logic and then set this
 
-    /*
+    if (targetPage === 'profile') {
+      pageToRender = <Profile />
+    } else if (targetPage === 'photo') {
+      pageToRender = <Photos />
+    } else if (targetPage === 'cocktail') {
+      pageToRender = <Cocktails />
+    } else if (targetPage === 'pokemon') {
+      pageToRender = <Pokemon />
+    }
 
-    Replace the code below! Depending on what menu item is selected in the menu, I should render either a Profile, Photos, Cocktails, or Pokemon component.Think of a way to track which menu item was selected. Which component should have state? Which component should have methods to control state? Where should these methods be called?
-
-    */
-
-    const detailsToDisplay = <div>Hi, I'm a div!</div>
+    // const detailsToDisplay = <div>Hi, I'm a div!</div>
 
     return (
       <div>
-        <MenuBar />
-        {detailsToDisplay}
+        <MenuBar selectPage={this.selectPage} currentState={this.state.selectedIcon} />
+          {pageToRender}
       </div>
     )
   }
